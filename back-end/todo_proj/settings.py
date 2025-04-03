@@ -23,12 +23,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-si73ng&y#a7d9xy9vuax@(4e$vd1!zw$gyqb%%y=0)(q4(d(vn'
-
+SECRET_KEY = env.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# For production deploy, this should be False
 
-ALLOWED_HOSTS = []
+if env.get('CORS_ALLOW_ALL_ORIGINS') == 'True':
+    DEBUG = True
+else:
+    DEBUG = False
+
+# eval is insecure dont do this
+# DEBUG = eval(env.get('CORS_ALLOW_ALL_ORIGINS')) or False
+
+# For production deploy, ALLOWED_HOSTS should be all, ["*"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -71,6 +79,7 @@ CORS_ALLOWED_ORIGINS = [
 """
 
 # For local dev
+# For production deploy this should be True
 CORS_ALLOW_ALL_ORIGINS = eval(env.get('CORS_ALLOW_ALL_ORIGINS')) or False
 
 ROOT_URLCONF = 'todo_proj.urls'

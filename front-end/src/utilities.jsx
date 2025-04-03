@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
 export const api = axios.create({
-    baseURL: "http://localhost:8000/api/"
+    // baseURL will be different for local dev vs production
+    baseURL: BASE_URL,
+    // baseURL: "http://localhost:8000/api/"
 })
 
 export const userRegistration = async (email, password) => {
